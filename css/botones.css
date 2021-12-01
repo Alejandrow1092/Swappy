@@ -1,0 +1,94 @@
+.boton{
+    border: none;
+    background-color: #EC3131;
+    color: white;
+    width: 40vw;
+    height: 62px;
+    top: 400px;
+    border-radius: 30px;
+    font-family: Arial;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+}
+
+#botoness{
+    width: 100%px;
+    height: 65px;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.bt-list{
+    font-family: Arial;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1em;
+    margin-left: 10vw;
+    margin-top: 5vw;
+    width: 80vw;
+    text-decoration: none;
+    background-color: #6571e0a6;
+    border-radius: 30px;
+    padding: 20px 5vw;
+    border: 0px solid #EC3131;
+}
+
+#btn{
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 80px;
+}
+
+
+.btn-flotante{
+    border: 0px solid white;
+    font-size: 0.9em;
+}
+
+.botonInvitar{
+    font-size: 1em;
+    border-radius: 10px;
+}
+
+.btn-menu{
+    color: #fff;
+}
+
+.invitaciones button{
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 70%;
+    cursor: pointer;
+    font-size: 6px;
+    border: 0px solid black;
+}
+
+.invitaciones button:hover{
+    background-color: #fff;
+    cursor: pointer;
+}
+
+#regresar{
+    width: 80px;
+    height: 50px;
+}
+
+#comenzar{
+    display: flex;
+    margin: auto;
+    font-size: 1.2em;
+    width: auto;
+    align-items: center;
+}
+
+#comenzar img{
+    width: 50px;
+    height: 50px;
+}
+

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/index.css">
+<link rel="stylesheet" href="css/botones.css">
+    <title>Swappy</title>
+</head>
+<body>
+    <nav>
+        
+    </nav>
+
+    <h1>Swappy</h1>
+
+        <form action="registro.php" method="POST">
+            <div id="datosFormulario">
+                <input placeholder="Nombre" type="text" name="nombre" required>
+                <input placeholder="Apellidos" type="text" name="app" required>
+                <select name="genero">
+                    <option value="" disable>Sexo</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="O">Otro</option>
+                </select>
+                <input placeholder="Correo Electronico" type="email" name="correoe" required>
+                <input placeholder="Contraseña" type="password" name="pass" required>
+            </div>
+            
+            <div id="btn">
+                <button id="crear" name="crear" class="boton">Crear</button>
+                <span>o</span>
+                <button id="login" name="login" class="boton" onclick="location.href='index.html'">Login</button>
+            </div>
+            
+        </form>
+  
+
+            
+          
+   
+   
+</body>
+</html>
