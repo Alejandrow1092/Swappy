@@ -93,7 +93,7 @@
 
 
 
-   $consulta = $connection->prepare("DELETE FROM intercambio WHERE codigo_int = :codigo_int");
+   /*$consulta = $connection->prepare("DELETE FROM intercambio WHERE codigo_int = :codigo_int");
     $consulta->bindParam("codigo_int", $_POST['codigoInt'], PDO::PARAM_STR);
     $resultado = $consulta->execute();
     if($resultado){
@@ -119,7 +119,7 @@
         $mensaje = "error intercambio";
     }
     
-
+**/
     
     //$template="index.html";//Ruta de la plantilla HTML para enviar nuestro mensaje
     

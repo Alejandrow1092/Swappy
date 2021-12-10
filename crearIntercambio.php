@@ -54,7 +54,6 @@
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" type="text/css" href="css/botones.css">
     <title>Swappy</title>
-    <script src="https://kit.fontawesome.com/1e5e5ee2b5.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/crearIntercambio.js"></script>
     <script type="text/javascript" src="js/JQuery.js"></script>
 </head>
@@ -119,7 +118,25 @@
             ?>
            
         </ul>
+        <div class="window-notice" id="invitarAmigo">
+            <div class="content">
+                <div class="content-text">
+                    <input type="email" name="correo" id="correo" placeholder="Correo electrónico" required>
+                    <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
+                    <input type="text" name="app" id="app" placeholder="Apellidos" required>
+                    <input type="radio" name="genero" value="M"> Masculino
+                    <input type="radio" name="genero" value="F"> Femenino
+                    <input type="text" name="estado" id="estado" disabled>
+                </div>
+                <section id="btn-duo">
+                    <button class="boton" onclick="enviarInv();">Invitar</button>
+                    <button class="boton" onclick="mostrarCuadro(1);">Cerrar</button>
+                </section>
+            </div>
+        </div>
     </section>
+    <button id="invitar" name="invitar" class="boton" onclick="mostrarCuadro(0)">Invitar a otra persona</button>
     <button id="guardar" name="guardar" class="boton" onclick="location.href='home.php'">Guardar</button>
+    
 </body>
 </html>

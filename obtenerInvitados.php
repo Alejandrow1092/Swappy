@@ -1,10 +1,17 @@
 <?php
 	
 	session_start();
- 
+ $id;
     if(!isset($_SESSION['id'])){
-        header('Location: index.html');
-        exit;
+        if(!isset($_POST['id'])){
+            header('Location: index.html');
+            exit;
+        } else{
+            $id = $_POST['id_usuario'];
+            session_destroy();
+        }
+    } else{
+        $id = $_SESSION['id'];
     }
 	include('conBD.php');
 

@@ -1,21 +1,34 @@
 <?php
-    
     session_start();
- 
+    $id;
+    $sesion = false;
     if(!isset($_SESSION['id'])){
-        header('Location: index.html');
-        exit;
+        if(!isset($_GET['id'])){
+            header('Location: index.html');
+            exit;
+        } else{
+            $id = $_GET['id'];
+            session_destroy();
+        }
+    } else{
+        $id = $_SESSION['id'];
+        $sesion = true;
     }
 
     include("conBD.php");
+    $codigo;
+    if(isset($_POST["btn"])){
+        $codigo = $_POST['btn'];
+    } else{
+        $codigo = $_GET['codigo'];
+    }
 
-    if(isset($_POST["btn"])):
         $bandera = false;
         $consulta = $connection->prepare("SELECT * from intercambio WHERE codigo_int = :codigo_int");
-        $consulta->bindParam("codigo_int", $_POST['btn'], PDO::PARAM_STR);
+        $consulta->bindParam("codigo_int", $codigo, PDO::PARAM_STR);
         $consulta->execute();
         $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-        if($_SESSION["id"] == $resultado["id_dueno"]):
+        if($id == $resultado["id_dueno"]):
             $bandera = true;
         endif;
         $titulo = $resultado["titulo"];
@@ -39,18 +52,21 @@
     <script type="text/javascript" src="js/jQuery.js"></script>
     <script type="text/javascript" src="js/intercambioShow.js"></script>
 </head>
-<body onload="obtenerAmigos(<?=$bandera ? 1 : 0?>); obtenerParticipantes(<?=$_POST['btn']?>, <?=$bandera ? 1 : 0?>); obtenerInvitados();">
+<body <?php if($sesion): ?>onload="obtenerAmigos(<?=$bandera ? 1 : 0?>); obtenerParticipantes(<?=$codigo?>, <?=$bandera ? 1 : 0?>); obtenerInvitados();"<?php endif;?>>
     <header class="header">
         <div class="container">
+            <?php if($sesion):?>
             <div class="btn-menu">
                 <label for="btn-menu">☰</label>
             </div>
+            <?php endif;?>
             <div class="logo">
                 <h1>Swappy</h1>
             </div>
         </div>
     </header>
     <!--    --------------->
+    <?php if($sesion):?>
     <input type="checkbox" id="btn-menu">
     <div class="container-menu">
         <div class="cont-menu">
@@ -77,9 +93,12 @@
             <label for="btn-menu">✖️</label>
         </div>
     </div>
+<?php endif;?>
     <div class="formulario">
+    <?php if($sesion):?>
     <button id="regresar" name="regresar" class="boton" onclick="location.href = 'home.php'"><img src="./img/back.png" alt="regresar" width="40px" heigth="40px"></button>
-        <?php
+    <?php
+            endif;
             if($bandera):
         ?>
         <button class="agregarA" onclick="mostrarCuadro(0);">
@@ -98,8 +117,8 @@
                         unset($temas[0]);
                         $cont = 0;
                         $consulta2 = $connection->prepare("SELECT * from participantes WHERE codigo_int = :codigo_int and id_usuario = :id");
-                        $consulta2->bindParam("codigo_int", $_POST['btn'], PDO::PARAM_STR);
-                        $consulta2->bindParam("id", $_SESSION['id'], PDO::PARAM_STR);
+                        $consulta2->bindParam("codigo_int", $codigo, PDO::PARAM_STR);
+                        $consulta2->bindParam("id", $id, PDO::PARAM_STR);
                         $consulta2->execute();
                         $resultado2 = $consulta2->fetch(PDO::FETCH_ASSOC);
                         foreach ($temas as $t):
@@ -177,20 +196,22 @@
                 </label>
 
                 <label for="codigo_int">Codigo: <br>
-                    <input type="text" id="codigo_int" name="codigo_int" value="<?=$_POST['btn']?>" readonly>
+                    <input type="text" id="codigo_int" name="codigo_int" value="<?=$codigo?>" readonly>
                 </label>
             </section>
             <?php
                 if($bandera):
             ?>
-                <div id="botoness">
+                <div class="botoness">
                     <button id="modificar" name="modificar" class="boton">Modificar</button>
-                    <button id="eliminar" name="eliminar" class="boton" onclick="eliminar(<?=$_POST['btn']?>);">Eliminar</button>
                 </div>
             </form>
+                <div class="botoness">
+                    <button id="eliminar" name="eliminar" class="boton" onclick="eliminar(<?=$codigo?>);">Eliminar</button>
+                </div>
 
                 <form method="POST" action="iniciarInt.php">
-                    <input type="hidden" name="codigoInt" id="codigoInt" value="<?=$_POST['btn']?>">
+                    <input type="hidden" name="codigoInt" id="codigoInt" value="<?=$codigo?>">
                     <button id="comenzar" name="comenzar" class="boton">
                         <label>Comenzar</label>
                         <img src="./img/exchange.png" alt="Start">
@@ -202,20 +223,21 @@
             ?>
                 <form method="POST" action="modificarReg.php">
                     <input type="hidden" name="valorRegalo" id="valorRegalo">
-                    <input type="hidden" name="valorCodigo" id="valorCodigo" value="<?=$_POST['btn']?>">
+                    <input type="hidden" name="id" id="id" value="<?=$id?>">
+                    <input type="hidden" name="valorCodigo" id="valorCodigo" value="<?=$codigo?>">
                     <div id="botoness">
-                    <button id="regalo" name="regalo" class="boton">Confirmar regalo</button>    
-                    <button id="salir" name="salir" class="boton" onclick="salir(<?=$_POST['btn']?>);">Salir del intercambio</button>
+                    <button id="regalo" name="regalo" class="boton">Confirmar regalo</button>
                     </div>
                     
                 </form>
+                <button id="salir" name="salir" class="boton" onclick="salir(<?=$codigo?>, <?=$id?>);">Salir del intercambio</button>
                 
             <?php
                 endif;
             ?>
         
     </div>
-<?php endif;?>
+    <?php if($sesion):?>
     <div class="window-notice" id="window-notice">
         <div class="content">
             <label><span id="participantes">PARTICIPANTES</span></label>
@@ -225,6 +247,7 @@
                     
                 </ul>
             </div>
+            
             <label><span>AMIGOS</span></label>
             <div class="content-text">
                 
@@ -232,6 +255,7 @@
                     
                 </ul>
             </div>
+        
             <label><span>INVITADOS</span></label>
             <div class="content-text">
                 
@@ -242,6 +266,7 @@
             <button id="cerrar" class="boton" onclick="mostrarCuadro(1);">Cerrar</button>
         </div>
     </div>
+    <?php endif;?>
     <!--<div class="window-notice" id="window-notice">
         <div class="content">
             <div class="content-text">
