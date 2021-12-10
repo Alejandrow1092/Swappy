@@ -13,19 +13,21 @@ function eliminar(codigo){
 	    data:{codigo_int: codigo}, // data recive un objeto con la informacion que se enviara al servidor
 	    success: function(datos){ //success es una funcion que se utiliza si el servidor retorna informacion
 	        if(datos !== ""){
+	        	console.log(datos);
 		        location.href = 'home.php';
 			}
 	    }
 	});
 }
 
-function salir(){
+function salir(codigo, id){
 	$.ajax({
 	    type:"POST", // la variable type guarda el tipo de la peticion GET,POST,..
 	    url:"salirInt.php", //url guarda la ruta hacia donde se hace la peticion
-	    data:{codigo_int: document.getElementById("codigo_int").value}, // data recive un objeto con la informacion que se enviara al servidor
+	    data:{codigo_int: document.getElementById("codigo_int").value, id_usuario: id}, // data recive un objeto con la informacion que se enviara al servidor
 	    success: function(datos){ //success es una funcion que se utiliza si el servidor retorna informacion
 	        if(datos !== ""){
+	        	console.log(datos)
 		        location.href = 'home.php';
 			}
 	    }

@@ -4,7 +4,7 @@
     color: white;
     width: 40vw;
     height: 62px;
-    top: 400px;
+    /*top: 400px;*/
     border-radius: 30px;
     font-family: Arial;
     font-style: normal;
@@ -14,11 +14,11 @@
     text-align: center;
 }
 
-#botoness{
+.botoness{
     width: 100%px;
     height: 65px;
     display: flex;
-    justify-content: space-around;
+    align-content: center;
 }
 
 
