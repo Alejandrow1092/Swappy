@@ -91,6 +91,10 @@
         $cont++;
     }
 
+     $consulta = $connection->prepare("UPDATE intercambio SET estado = 1 WHERE codigo_int = :codigo_int");
+    $consulta->bindParam("codigo_int", $_POST['codigoInt'], PDO::PARAM_STR);
+    $consulta->execute();
+    header("Location: home.php");
 
 
    /*$consulta = $connection->prepare("DELETE FROM intercambio WHERE codigo_int = :codigo_int");

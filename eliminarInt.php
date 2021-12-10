@@ -15,6 +15,16 @@
     $consulta->bindParam("codigo_int", $_POST['codigo_int'], PDO::PARAM_STR);
     $resultado = $consulta->execute();
     if($resultado){
+        $consulta = $connection->prepare("SELECT usuario.id_usuario as id from usuario inner join participantes on usuario.id_usuario = participantes.id_usuario where usuario.contrasena is null and codigo_int = :codigo_int");
+         $consulta->bindParam("codigo_int", $_POST['codigo_int']);
+        $consulta->execute();
+
+        while($resultado = $consulta->fetch(PDO::FETCH_ASSOC)){
+             $consulta = $connection->prepare("DELETE FROM usuario WHERE id_usuario = :id");
+             $consulta->bindParam("id", $resultado['id'], PDO::PARAM_STR);
+            $consulta->execute();             
+        }
+
         $consulta = $connection->prepare("DELETE FROM participantes WHERE codigo_int = :codigo_int");
         $consulta->bindParam("codigo_int", $_POST['codigo_int'], PDO::PARAM_STR);
         $resultado = $consulta->execute();

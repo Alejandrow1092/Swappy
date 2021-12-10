@@ -9,7 +9,7 @@
 
     include("conBD.php");
 
-    $consulta = $connection->prepare("SELECT intercambio.codigo_int as codigo_int, intercambio.titulo as titulo FROM intercambio INNER JOIN participantes ON intercambio.codigo_int = participantes.codigo_int WHERE participantes.id_usuario = :id");
+    $consulta = $connection->prepare("SELECT intercambio.codigo_int as codigo_int, intercambio.titulo as titulo FROM intercambio INNER JOIN participantes ON intercambio.codigo_int = participantes.codigo_int WHERE participantes.id_usuario = :id and intercambio.id_dueno != :id and estado = 0");
     $consulta->bindParam("id", $_SESSION['id']);
     $consulta->execute();
 
@@ -69,7 +69,7 @@
 
     <section id="intercambios">
         <ul>
-            <li id="title"><label>Mis intercambios</label></li>
+            <li id="title"><label>Intercambios pendientes</label></li>
             <?php
                 while($resultado = $consulta->fetch(PDO::FETCH_ASSOC)):
                     /*$terminado = ($resultado['fecha_fin'] == NULL) ? false : true;*/
@@ -78,6 +78,50 @@
             ?>
                 <li>
                     <form method="POST" action="intercambioShow.php">
+                        <button class="bt-list" name="btn" value="<?=$codigo_int?>"> <?=$titulo?></button>
+                    </form>
+                </li>
+            <?php
+                endwhile;
+            ?>
+        </ul>
+    </section>
+    <section id="intercambios">
+        <ul>
+            <li id="title"><label>Mis intercambios</label></li>
+            <?php
+                $consulta = $connection->prepare("SELECT intercambio.codigo_int as codigo_int, intercambio.titulo as titulo FROM intercambio WHERE id_dueno = :id and estado = 0");
+                $consulta->bindParam("id", $_SESSION['id']);
+                $consulta->execute();
+                while($resultado = $consulta->fetch(PDO::FETCH_ASSOC)):
+                    /*$terminado = ($resultado['fecha_fin'] == NULL) ? false : true;*/
+                    $titulo = $resultado["titulo"];
+                    $codigo_int = $resultado["codigo_int"];
+            ?>
+                <li>
+                    <form method="POST" action="intercambioShow.php">
+                        <button class="bt-list" name="btn" value="<?=$codigo_int?>"> <?=$titulo?></button>
+                    </form>
+                </li>
+            <?php
+                endwhile;
+            ?>
+        </ul>
+    </section>
+    <section id="intercambios">
+        <ul>
+            <li id="title"><label>Intercambios realizados</label></li>
+            <?php
+                $consulta = $connection->prepare("SELECT intercambio.codigo_int as codigo_int, intercambio.titulo as titulo FROM intercambio INNER JOIN participantes ON intercambio.codigo_int = participantes.codigo_int WHERE participantes.id_usuario = :id and estado = 1");
+                $consulta->bindParam("id", $_SESSION['id']);
+                $consulta->execute();
+                while($resultado = $consulta->fetch(PDO::FETCH_ASSOC)):
+                    /*$terminado = ($resultado['fecha_fin'] == NULL) ? false : true;*/
+                    $titulo = $resultado["titulo"];
+                    $codigo_int = $resultado["codigo_int"];
+            ?>
+                <li>
+                    <form method="POST" action="verSorteo.php">
                         <button class="bt-list" name="btn" value="<?=$codigo_int?>"> <?=$titulo?></button>
                     </form>
                 </li>
